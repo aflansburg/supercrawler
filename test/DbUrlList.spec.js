@@ -32,7 +32,8 @@ describe("DbUrlList", function () {
       password: "crawlerpassword",
       sequelizeOpts: {
         dialect: "sqlite"
-      }
+      },
+      table: "tablename"
     }
   };
 
@@ -161,7 +162,7 @@ describe("DbUrlList", function () {
 
   it("defines the url table", function () {
     new DbUrlList(opts);
-    sinon.assert.calledWith(defineSpy, "url", sinon.match({
+    sinon.assert.calledWith(defineSpy, sinon.match.string, sinon.match({
       urlHash: {
         allowNull: false
       },
@@ -190,7 +191,7 @@ describe("DbUrlList", function () {
 
   it("url field is max 10,000 characters long", function () {
     new DbUrlList(opts);
-    sinon.assert.calledWith(defineSpy, "url", sinon.match({
+    sinon.assert.calledWith(defineSpy, sinon.match.string, sinon.match({
       url: {
         type: "TEST_STRING10000"
       }
@@ -275,9 +276,7 @@ describe("DbUrlList", function () {
           statusCode: null,
           errorCode: null,
           numErrors: 0
-        })]), sinon.match({
-          ignoreDuplicates: true
-        }));
+        })]));
         done();
       });
     });
